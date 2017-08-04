@@ -119,7 +119,7 @@ if(!production){
     R.server$add(app = transform.app, name="transformapp")
     R.server$add(app = data.app, name="dataapp")
     R.server$add(app = write.app, name="writeapp")
-    
+
         ## These add the .apps for the privacy budget allocator interface
     if(addPrivacy){
         R.server$add(app = privateStatistics.app, name="privateStatisticsapp")
@@ -137,4 +137,3 @@ if(!production){
 #mydata<-read.delim("../data/fearonLaitin.tsv")
 #mydata<-getDataverse(hostname="dvn-build.hmdc.harvard.edu", fileid="2429360")
 #z.out<-zelig(cntryerb~cntryera + dyadidyr, model="ls", data=mydata)
-
