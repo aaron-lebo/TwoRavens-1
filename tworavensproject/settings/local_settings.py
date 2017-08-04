@@ -8,7 +8,7 @@ from .base import *
 
 SECRET_KEY = 'ye-local-laptop-secret-key'
 
-LOCAL_SETUP_DIR = join(BASE_DIR, 'test_setup')
+LOCAL_SETUP_DIR = join(BASE_DIR, 'test_setup_local')
 if not isdir(LOCAL_SETUP_DIR):
     makedirs(LOCAL_SETUP_DIR)
 
@@ -26,6 +26,7 @@ STATIC_ROOT = join(LOCAL_SETUP_DIR, 'staticfiles')
 if not isdir(STATIC_ROOT):
     makedirs(STATIC_ROOT)
 
+TEST_DIRECT_STATIC = join(BASE_DIR, 'static')
 
 # http://django-debug-toolbar.readthedocs.org/en/latest/installation.html
 INTERNAL_IPS = ('127.0.0.1',)

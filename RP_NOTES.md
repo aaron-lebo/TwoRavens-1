@@ -4,7 +4,8 @@
 - 1st step, route a UI requests through Django to Rook instead of directly to Rook
   - For prototype, the chart images will still be served directly from Rook
 
-- Eventual goal is to have Rook/R functions to be a separate service, likely a separate repository
+- Eventual goal is to have Rook/R functions to be a separate service
+
 
 
 # postactive

@@ -222,7 +222,8 @@ if (ddiurl) {
     // neither a full ddi url, nor file id supplied; use one of the sample DDIs that come with
     // the app, in the data directory:
     // metadataurl="data/qog137.xml"; // quality of government
-    metadataurl="~/TwoRavens/data/fearonLaitin.xml"; // This is Fearon Laitin
+    //metadataurl="~/TwoRavens/data/fearonLaitin.xml"; // This is Fearon Laitin
+    metadataurl="http://127.0.0.1:8080/static/data/fearonLaitin.xml";
     //metadataurl="data/PUMS5small-ddi.xml"; // This is California PUMS subset
     //metadataurl="data/BP.formatted-ddi.xml";
     //metadataurl="data/FL_insurance_sample-ddi.xml";
@@ -233,6 +234,7 @@ if (ddiurl) {
     //metadataurl="data/000.xml"; // one var in metadata
     //metadataurl="data/0000.xml"; // zero vars in metadata
 }
+alert('metadataurl: ' + metadataurl);
 
 // Reading the pre-processed metadata:
 // Pre-processed data:
