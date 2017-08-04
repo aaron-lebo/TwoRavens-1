@@ -50,7 +50,9 @@ if (fileid && !dataurl) {
 if (!production) {
     // base URL for the R apps:
     var rappURL = "http://0.0.0.0:8000/custom/";
+    var djangoTestURL = "http://127.0.0.1:8080/rook-custom/";
 } else {
+    var djangoTestURL = "";
     var rappURL = "https://beta.dataverse.org/custom/"; //this will change when/if the production host changes
 }
 
@@ -234,7 +236,7 @@ if (ddiurl) {
     //metadataurl="data/000.xml"; // one var in metadata
     //metadataurl="data/0000.xml"; // zero vars in metadata
 }
-alert('metadataurl: ' + metadataurl);
+//alert('metadataurl: ' + metadataurl);
 
 // Reading the pre-processed metadata:
 // Pre-processed data:
@@ -2089,7 +2091,9 @@ function estimate(btn) {
     var jsonout = JSON.stringify(zparams);
 
     //var base = rappURL+"zeligapp?solaJSON="
-    urlcall = rappURL+"zeligapp"; //base.concat(jsonout);
+    //urlcall = rappURL + "zeligapp"; //base.concat(jsonout);
+    urlcall = djangoTestURL + "zeligapp";
+
     var solajsonout = "solaJSON="+jsonout;
     //console.log("urlcall out: ", urlcall);
     //console.log("POST out: ", solajsonout);
@@ -2178,6 +2182,8 @@ function estimate(btn) {
     }
 
     estimateLadda.start();  // start spinner
+
+    alert(urlcall);('urlcall: ' + urlcall);
     makeCorsRequest(urlcall,btn, estimateSuccess, estimateFail, solajsonout);
     //makeCorsRequest(selectorurlcall, btn, selectorSuccess, selectorFail, solajsonout);
 

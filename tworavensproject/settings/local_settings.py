@@ -39,3 +39,8 @@ MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
 MEDIA_ROOT = join(LOCAL_SETUP_DIR, "media")
 
 MEDIA_URL = '/media/'
+
+# TwoRavens R service test
+
+R_DEV_SERVER_BASE = 'http://0.0.0.0:8000/custom/'
+URL_ZELIG_APP = R_DEV_SERVER_BASE + 'zeligapp'

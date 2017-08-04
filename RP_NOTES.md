@@ -6,6 +6,16 @@
 
 - Eventual goal is to have Rook/R functions to be a separate service
 
+# Basic zelig routing working with:
+
+(Note: this requires a fair amount of setup not documented for prototype--running python 3)
+
+```
+python manage.py runserver 8080 # run django dev. server
+```
+
+Static file served: http://127.0.0.1:8080/static/gui.html
+  - in future, the "gui.html" would become a template to allow sessions, menus, features, etc
 
 
 # postactive

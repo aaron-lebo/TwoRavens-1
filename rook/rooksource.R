@@ -8,6 +8,7 @@
 production<-FALSE     ## Toggle:  TRUE - Production, FALSE - Local Development
 addPrivacy<-TRUE      ## Toggle:  TRUE - Add .apps for differential privacy, FALSE - Do not add privacy .apps
 
+NON_PRODUCTION_DATA_PATH = '../static/data'
 
 if(production){
     sink(file = stderr(), type = "output")
@@ -94,7 +95,6 @@ if(!production){
     R.server$listenPort <- myPort
 
 }
-
 
 
 #source("rookselector.R")

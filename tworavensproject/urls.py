@@ -26,7 +26,7 @@ admin.site.site_title = ('TwoRavens Admin page')
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^rook-svc/', include('raven_apps.rook_services.urls')),
+    url(r'^rook-custom/', include('raven_apps.rook_services.urls')),
 
 ] + static(settings.STATIC_URL,
            #document_root=settings.STATIC_ROOT)
