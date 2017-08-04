@@ -3,3 +3,4 @@
 rook/log_*.txt
 rook/output*.png
 rook/.Rapp.history
+*.pyc
