@@ -40,6 +40,8 @@ MEDIA_ROOT = join(LOCAL_SETUP_DIR, "media")
 
 MEDIA_URL = '/media/'
 
+TIME_ZONE = 'America/New_York'
+
 # TwoRavens R service test
 
 R_DEV_SERVER_BASE = 'http://0.0.0.0:8000/custom/'

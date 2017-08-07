@@ -4,7 +4,8 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-
+from raven_apps.rook_services.models import TestCallCapture,\
+    ZELIG_APP
 
 # Create your views here.
 @csrf_exempt
@@ -17,12 +18,31 @@ def view_test_zelig_route(request):
     #
     zeligapp_data = dict(solaJSON=request.POST['solaJSON'])
 
+    # Begin object to capture request
+    #
+    call_capture = TestCallCapture(\
+                    app_name=ZELIG_APP,
+                    outgoing_url=settings.URL_ZELIG_APP,
+                    request=request.POST['solaJSON'])
+
     # Call zelig
     #
     r = requests.post(settings.URL_ZELIG_APP,
                       data=zeligapp_data)
 
 
+    # Save request result
+    #
+    call_capture.response = r.text
+    call_capture.status_code = r.status_code
+    if r.status_code == 200:
+        call_capture.success = True
+    else:
+        call_capture.success = False
+    call_capture.save()
+
+    # Return the response to the user
+    #
     print (40 * '=')
     print (r.text)
     #d = r.json()
