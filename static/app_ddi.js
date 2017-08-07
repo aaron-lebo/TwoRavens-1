@@ -700,74 +700,74 @@ $(document).on('input', '#searchvar', function() {
 
 
 
+// --------------------------
+// Search the variable names
+// --------------------------
+var srchid=[];
+var vkey=[];
+$("#searchvar").on("keyup", function search(e) {
 
-	var srchid=[];
-	var vkey=[];
-	$("#searchvar").on("keyup",function search(e) {
-    //if(e.keyCode == 8 ) {
-		//d3.select("#tab1").selectAll("p")
 
-		$("#tab1").children().popover('hide');
-	//}
-	var flag=0;
-		var k=0;
-		  vkey=[];
-		 srchid=[];
+    var searchString = $(this).val();
+    $("#tab1").children().popover('hide');
 
-		 if($(this).val()===''){
-			srchid=[];
-			flag=0;
-			updatedata(valueKey,flag);
-			return;
+    // reset flags
+    var flag=0;
+    var k=0;
+    vkey=[];
+    srchid=[];
+
+    // if search is empty return
+    //
+		if(searchString===''){
+  			srchid=[];
+  			flag=0;
+  			updatedata(valueKey,flag);
+  			return;
 		}
 
-		for(var i=0;i<allNodes.length;i++)
-		{
-			if((allNodes[i]["name"].indexOf($(this).val())!=-1))
-			{
-				srchid[k]=i;
+    // set search term to lowercase
+    var searchStringLcase = searchString.toLowerCase();
 
-			k=k+1;}
-		}
-		for(var i=0;i<allNodes.length;i++)
-		{
-			if((allNodes[i]["labl"].indexOf($(this).val())!=-1) && ($.inArray(i, srchid)==-1))
-			{
-
-				srchid[k]=i;
-
-			k=k+1;}
-		}
-
-		//console.log(srchid);
-		lngth=srchid.length;
-	if(k==0){
-			vkey=valueKey;
-
+    // Check the (lowercased) node names for the search term
+    //
+	for(var i=0;i<allNodes.length;i++){
+        if((allNodes[i]["name"].toLowerCase().indexOf(searchStringLcase)!=-1)){
+			srchid[k]=i;
+           k=k+1;
+        }
 	}
-	else{
 
-				flag=1;
-				vkey=[];
+    // Check the (lowercased) node labels for the search term
+    //
+	for(var i=0;i<allNodes.length;i++){
+			if((allNodes[i]["labl"].toLowerCase().indexOf($(this).val())!=-1) && ($.inArray(i, srchid)==-1)){
+            srchid[k]=i;
+            k=k+1;
+        }
+	}
 
-				k=0;
-				var i=0;
-				for( i=0;i<srchid.length;i++)	{
-					vkey[i]=valueKey[srchid[i]];
+	lngth=srchid.length;
+	if(k==0){
+	   vkey=valueKey;
+	}else{
 
-				}
+		flag=1;
+		vkey=[];
 
-				for(var j=0;j<valueKey.length;j++){
+		k=0;
+		var i=0;
+		for( i=0;i<srchid.length;i++)	{
+			vkey[i]=valueKey[srchid[i]];
+		}
 
-					if($.inArray(valueKey[j],vkey)==-1){
-							vkey[i]=valueKey[j];
-							i++;
-					}
-
-				}
-				}
-
-
+		for(var j=0;j<valueKey.length;j++){
+			if($.inArray(valueKey[j],vkey)==-1){
+					vkey[i]=valueKey[j];
+					i++;
+			}
+		}
+	}
 
 	updatedata(vkey,flag);
 
@@ -1787,6 +1787,17 @@ function restart() {
 
         }
 
+  function rptest(){
+
+    console.log(allNodes.length);
+
+    var attr_names = [];
+    $.each(allNodes, function( index, node ) {
+        attr_names.push(node.name);
+        //console.log(index + ": " + node.name);
+      });
+    console.log(attr_names.join(", "));
+  }
 
 	//ROHIT BHATTACHARJEE Write to JSON Function, to write new metadata file after the user has tagged a variable as a time variable
 	function writetojson(btn){
