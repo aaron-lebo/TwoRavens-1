@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'raven_apps.rook_services',
+    'tworaven_apps.rook_services',
 ]
 
 MIDDLEWARE = [

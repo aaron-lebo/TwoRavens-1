@@ -328,6 +328,7 @@ readPreprocess(url=pURL, p=preprocess, v=null, callback=function(){
                //d3.xml(metadataurl, "application/xml", function(xml) {
 
 				//				  d3.json(url, function(error, json) {
+            alert('readPreprocess: ' + pURL);
                d3.json(url,function(json){
 
 

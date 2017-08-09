@@ -4,32 +4,40 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from raven_apps.rook_services.models import TestCallCapture,\
-    ZELIG_APP
+from tworaven_apps.rook_services.models import TestCallCapture
+from tworaven_apps.rook_services.rook_app_info import RookAppInfo
 
-# Create your views here.
 @csrf_exempt
-def view_test_zelig_route(request):
+def view_rook_route(request, app_name_in_url):
 
+    # get the app info
+    #
+    rook_app_info = RookAppInfo.get_appinfo_from_url(app_name_in_url)
+    if rook_app_info is None:
+        return Http404('unknown rook app: %s' % app_name_in_url)
+
+    # look for the "solaJSON" variable in the POST
+    #
     if (not request.POST) or (not 'solaJSON' in request.POST):
         return JsonResponse(dict(status="ERROR", message="solaJSON key not found"))
 
-    # Make a dict to send info only R zeligapp
+    # Retrieve post data
     #
-    zeligapp_data = dict(solaJSON=request.POST['solaJSON'])
+    app_data = dict(solaJSON=request.POST['solaJSON'])
+
+    rook_app_url = rook_app_info.get_rook_server_url()
 
     # Begin object to capture request
     #
     call_capture = TestCallCapture(\
-                    app_name=ZELIG_APP,
-                    outgoing_url=settings.URL_ZELIG_APP,
+                    app_name=rook_app_info.name,
+                    outgoing_url=rook_app_url,
                     request=request.POST['solaJSON'])
 
     # Call zelig
     #
-    r = requests.post(settings.URL_ZELIG_APP,
-                      data=zeligapp_data)
-
+    r = requests.post(rook_app_url,
+                      data=app_data)
 
     # Save request result
     #

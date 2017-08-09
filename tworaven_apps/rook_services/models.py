@@ -2,10 +2,11 @@ from django.db import models
 
 from django.utils.safestring import mark_safe
 from model_utils.models import TimeStampedModel
-from raven_apps.utils.json_helper import format_pretty_for_html
+from tworaven_apps.utils.json_helper import format_pretty_for_html
 
 # Create your models here.
 ZELIG_APP = 'zelig'
+DATA_APP = 'dataapp'
 
 class TestCallCapture(TimeStampedModel):
 
