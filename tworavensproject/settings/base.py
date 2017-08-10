@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'tworaven_apps.rook_services',
+    'tworaven_apps.workspaces',
 ]
 
 MIDDLEWARE = [

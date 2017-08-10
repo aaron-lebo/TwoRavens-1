@@ -2,3 +2,4 @@ Django==1.11.4
 requests==2.18.3
 django-model-utils==3.0.0
 #simplejson==3.11.1
+jsonfield==2.0.2

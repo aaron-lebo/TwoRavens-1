@@ -2,7 +2,7 @@ from django.db import models
 
 from django.utils.safestring import mark_safe
 from model_utils.models import TimeStampedModel
-from tworaven_apps.utils.json_helper import format_pretty_for_html
+from tworaven_apps.utils.json_helper import format_json_for_admin
 
 # Create your models here.
 ZELIG_APP = 'zelig'
@@ -26,14 +26,7 @@ class TestCallCapture(TimeStampedModel):
         ordering = ('-created',)
 
     def request_json(self):
-        if not self.request:
-            return 'n/a'
-
-        pretty_json = format_pretty_for_html(self.request)
-        return mark_safe(pretty_json)
+        return format_json_for_admin(self.request)
 
     def response_json(self):
-        if not self.response:
-            return 'n/a'
-        pretty_json = format_pretty_for_html(self.response)
-        return mark_safe(pretty_json)
+        return format_json_for_admin(self.response)

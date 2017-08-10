@@ -50,10 +50,15 @@ if (fileid && !dataurl) {
 if (!production) {
     // base URL for the R apps:
     var rappURL = "http://0.0.0.0:8000/custom/";
+
     var djangoTestURL = "http://127.0.0.1:8080/rook-custom/";
+    var djangoTestStaticURL = "http://127.0.0.1:8080/static/";
 } else {
-    var djangoTestURL = "";
     var rappURL = "https://beta.dataverse.org/custom/"; //this will change when/if the production host changes
+
+    var djangoTestURL = "";
+    var djangoTestStaticURL = "";
+
 }
 
 // space index
@@ -320,6 +325,7 @@ function findValue(json, key) {
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 readPreprocess(url=pURL, p=preprocess, v=null, callback=function(){
               //console.log(UrlExists(metadataurl));
 
@@ -328,7 +334,7 @@ readPreprocess(url=pURL, p=preprocess, v=null, callback=function(){
                //d3.xml(metadataurl, "application/xml", function(xml) {
 
 				//				  d3.json(url, function(error, json) {
-            alert('readPreprocess: ' + pURL);
+            console.log('readPreprocess: ' + pURL);
                d3.json(url,function(json){
 
 
@@ -1788,18 +1794,6 @@ function restart() {
 
         }
 
-  function rptest(){
-
-    console.log(allNodes.length);
-
-    var attr_names = [];
-    $.each(allNodes, function( index, node ) {
-        attr_names.push(node.name);
-        //console.log(index + ": " + node.name);
-      });
-    console.log(attr_names.join(", "));
-  }
-
 	//ROHIT BHATTACHARJEE Write to JSON Function, to write new metadata file after the user has tagged a variable as a time variable
 	function writetojson(btn){
 
@@ -2087,6 +2081,9 @@ function zPop() {
     }
 }
 
+/**
+ *  Uses the Zelig App
+ */
 function estimate(btn) {
 
     if(production && zparams.zsessionid=="") {
@@ -2195,7 +2192,7 @@ function estimate(btn) {
 
     estimateLadda.start();  // start spinner
 
-    alert(urlcall);('urlcall: ' + urlcall);
+    alert("rp: " + urlcall);//('urlcall: ' + urlcall);
     makeCorsRequest(urlcall,btn, estimateSuccess, estimateFail, solajsonout);
     //makeCorsRequest(selectorurlcall, btn, selectorSuccess, selectorFail, solajsonout);
 
@@ -2241,7 +2238,7 @@ function dataDownload() {
         console.log("Data have not been downloaded");
     }
 
-    makeCorsRequest(urlcall,btn, downloadSuccess, downloadFail, solajsonout);
+    makeCorsRequest(urlcall, btn, downloadSuccess, downloadFail, solajsonout);
 }
 
 
@@ -2514,66 +2511,6 @@ function transform(n,t, typeTransform) {
             logArray.push("transform: ".concat(rCall[0]));
             showLog();
 
-            /*
-                    // NOTE: below is the carousel portion that needs to be revised as of May 29 2015
-
-            // add transformed variable to all spaces
-            // check if myspace callHistory contains a subset
-            for(var k0=0; k0<callHistory.length; k0++) {
-                if(callHistory[k0].func==="subset") {
-                    var subseted = true;
-                }
-            }
-
-        loopJ:
-            for(var j in spaces) {
-                if(j===myspace) {continue;}
-                var i = spaces[j].allNodes.length;
-                if(subseted===true) { // myspace has been subseted
-                    offspaceTransform(j);
-                    continue loopJ;
-                }
-            loopK:
-                for(var k=0; k<spaces[j].callHistory.length; k++) { // gets here if myspace has not been subseted
-                    if(spaces[j].callHistory[k].func==="subset") { // check if space j has been subseted
-                        offspaceTransform(j);
-                        continue loopJ;
-                    }
-                }
-                // if there is a subset in the callHistory of the current space, transformation is different
-                function offspaceTransform(j) {
-                    transformstuff = {zdataurl:dataurl, zvars:n, zsessionid:zparams.zsessionid, transform:t, callHistory:spaces[j].callHistory};
-                    var jsonout = JSON.stringify(transformstuff);
-                    //var base = rappURL+"transformapp?solaJSON="
-                    urlcall = rappURL+"transformapp"; //base.concat(jsonout);
-                    var solajsonout = "solaJSON="+jsonout;
-                    console.log("urlcall out: ", urlcall);
-                    console.log("POST out: ", solajsonout);
-
-
-                    function offspaceSuccess(btn, json) {
-                        spaces[j].callHistory.push({func:"transform", zvars:n, transform:t});
-                        spaces[j].logArray.push("transform: ".concat(rCall[0]));
-                        readPreprocess(json.url, p=spaces[j].preprocess, v=newVar, callback=null);
-
-                        spaces[j].allNodes.push({id:i, reflexive: false, "name": rCall[0][0], "labl": "transformlabel", data: [5,15,20,0,5,15,20], count: hold, "nodeCol":colors(i), "baseCol":colors(i), "strokeColor":selVarColor, "strokeWidth":"1", "interval":json.types.interval[0], "numchar":json.types.numchar[0], "nature":json.types.nature[0], "binary":json.types.binary[0], "defaultInterval":json.types.interval[0], "defaultNumchar":json.types.numchar[0], "defaultNature":json.types.nature[0], "defaultBinary":json.types.binary[0], "min":json.sumStats.min[0], "median":json.sumStats.median[0], "sd":json.sumStats.sd[0], "mode":(json.sumStats.mode[0]).toString(), "freqmode":json.sumStats.freqmode[0],"fewest":(json.sumStats.fewest[0]).toString(), "freqfewest":json.sumStats.freqfewest[0], "mid":(json.sumStats.mid[0]).toString(), "freqmid":json.sumStats.freqmid[0], "uniques":json.sumStats.uniques[0], "herfindahl":json.sumStats.herfindahl[0],
-                        "valid":json.sumStats.valid[0], "mean":json.sumStats.mean[0], "max":json.sumStats.max[0], "invalid":json.sumStats.invalid[0], "subsetplot":false, "subsetrange":["", ""],"setxplot":false, "setxvals":["", ""], "grayout":false});
-                    }
-                    function offspaceFail(btn) {
-                        alert("transform fail");
-                    }
-                    makeCorsRequest(urlcall,btn, offspaceSuccess, offspaceFail, solajsonout);
-                }
-
-                // if myspace and space j have not been subseted, append the same transformation
-                spaces[j].callHistory.push({func:"transform", zvars:n, transform:t});
-                spaces[j].logArray.push("transform: ".concat(rCall[0]));
-
-                spaces[j].allNodes.push({id:i, reflexive: false, "name": rCall[0][0], "labl": "transformlabel", data: [5,15,20,0,5,15,20], count: hold, "nodeCol":colors(i), "baseCol":colors(i), "strokeColor":selVarColor, "strokeWidth":"1", "interval":json.types.interval[0], "numchar":json.types.numchar[0], "nature":json.types.nature[0], "binary":json.types.binary[0], "defaultInterval":json.types.interval[0], "defaultNumchar":json.types.numchar[0], "defaultNature":json.types.nature[0], "defaultBinary":json.types.binary[0], "min":json.sumStats.min[0], "median":json.sumStats.median[0], "sd":json.sumStats.sd[0], "mode":(json.sumStats.mode[0]).toString(), "freqmode":json.sumStats.freqmode[0],"fewest":(json.sumStats.fewest[0]).toString(), "freqfewest":json.sumStats.freqfewest[0], "mid":(json.sumStats.mid[0]).toString(), "freqmid":json.sumStats.freqmid[0], "uniques":json.sumStats.uniques[0], "herfindahl":json.sumStats.herfindahl[0],
-                "valid":json.sumStats.valid[0], "mean":json.sumStats.mean[0], "max":json.sumStats.max[0], "invalid":json.sumStats.invalid[0], "subsetplot":false, "subsetrange":["", ""],"setxplot":false, "setxvals":["", ""], "grayout":false});
-
-                readPreprocess(json.url, p=spaces[j].preprocess, v=newVar, callback=null);
-            }   */
         }
     }
 

@@ -90,3 +90,5 @@ celerybeat-schedule
 # virtualenv
 venv/
 ENV/
+*.db
+static/images/Thumbs.db
