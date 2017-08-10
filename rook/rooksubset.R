@@ -9,6 +9,7 @@ subset.app <- function(env){
     production<-FALSE     ## Toggle:  TRUE - Production, FALSE - Local Development
     warning<-FALSE
 
+    print ('----- subset.app ----')
     if(production){
         sink(file = stderr(), type = "output")
     }
@@ -24,12 +25,13 @@ subset.app <- function(env){
 
     if(!warning) {
         everything <- jsonlite::fromJSON(request$POST()$solaJSON)
-       # print("value of Everything")
-          print(everything)
+         # print("value of Everything")
+          #print(everything)
     }
 
     print(class(everything$callHistory))
 
+    print('-- subset 1')
 
     if(!warning){
         mysessionid <- everything$zsessionid
@@ -51,6 +53,8 @@ subset.app <- function(env){
         }
 	}
 
+  print('-- subset 2')
+
     if(!warning){
 		myvars <- everything$zvars
         if(is.null(myvars)){
@@ -58,6 +62,8 @@ subset.app <- function(env){
             result<-list(warning="Problem with variables.")
         }
 	}
+  print('-- subset 3')
+
 
     if(!warning){
         mysubset <- parseSubset(everything$zsubset)
@@ -66,6 +72,8 @@ subset.app <- function(env){
             result <- list(warning="Problem with subset.")
         }
     }
+    print('-- subset 4')
+
     if(!warning){
         myplot <- everything$zplot
         if(is.null(myplot)){
@@ -73,6 +81,8 @@ subset.app <- function(env){
             result <- list(warning="Problem with zplot.")
         }
     }
+    print('-- subset 5')
+
 
     if(!warning){
         typeStuff <- everything$typeStuff
@@ -81,6 +91,8 @@ subset.app <- function(env){
             result<-list(warning="typeStuff is not a list or one of the necessary elements---varnames, interval, numchar, nature, binary---is null.")
         }
     }
+
+    print('-- subset 6')
 
     if(!warning){
         history <- everything$callHistory
@@ -92,6 +104,7 @@ subset.app <- function(env){
 
     #print(dim(mydata))
     #print(dim(usedata))
+    print('-- subset 7')
 
     # this tryCatch is not fully tested.
     tryCatch(
@@ -119,22 +132,29 @@ subset.app <- function(env){
       #  print("rohit types")
        # print(typeStuff)
         # send preprocess new usedata and receive url with location
+        print('-- subset 7a')
         purl <- pCall(data=usedata, production, sessionid=mysessionid, types=typeStuff)
+        print('-- subset 7b')
 
         result <- jsonlite:::toJSON(list(url=purl, call=call))
+        print('-- subset 7c')
     },
     error=function(err){
+       print('-- subset 8')
         warning <<- TRUE
         result <- list(warning=paste("Subset error: ", err))
         result<-jsonlite:::toJSON(result)
         assign("result", result, envir=globalenv())
     })
+    print('-- subset 9')
 
     #result <- toJSON(sumstats)
     print(result)
+    print('-- subset 10')
     if(production){
         sink()
     }
+    print('-- subset 11')
     response$write(result)
     response$finish()
 }

@@ -3334,14 +3334,16 @@ function subsetSelect(btn) {
 
     var jsonout = JSON.stringify(subsetstuff);
     //var base = rappURL+"subsetapp?solaJSON="
-    urlcall = rappURL+"subsetapp"; //base.concat(jsonout);
+    //urlcall = rappURL + "subsetapp"; //base.concat(jsonout);
+    urlcall = djangoTestURL + 'subsetapp';
     var solajsonout = "solaJSON="+jsonout;
 
-    console.log("POST out: ", solajsonout);
+    console.log("POST out: ", solajsonout.substring(0, 25));
 
 
     function subsetSelectSuccess(btn,json) {
-        console.log(json);
+        console.log('success!!\n' + json);
+
         selectLadda.stop(); // stop motion
         $("#btnVariables").trigger("click"); // programmatic clicks
         $("#btnModels").trigger("click");
@@ -3465,6 +3467,9 @@ function subsetSelect(btn) {
     }
 
     selectLadda.start(); //start button motion
+
+    console.log('urlcall: ' + urlcall)
+
     makeCorsRequest(urlcall,btn, subsetSelectSuccess, subsetSelectFail, solajsonout);
 
 }
